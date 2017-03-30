@@ -62,6 +62,7 @@ case class MyCsvRelation protected[spark](
           dateFormat,
           maxCharsPerCol)(sqlContext)
     ).foreach(csvRelation=>{
+      //sqlContext.baseRelationToDataFrame(csvRelation).show()
       //sqlContext.createDataFrame(csvRelation.buildScan,userSchema).show()
       addRdd(csvRelation.buildScan)
     })
