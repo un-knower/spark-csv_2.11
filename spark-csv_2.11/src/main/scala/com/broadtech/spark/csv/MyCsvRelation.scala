@@ -9,6 +9,7 @@ import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 
 /**
   * Created by ideal on 17-3-30.
+  * 这里是spark 数据加载器
   */
 case class MyCsvRelation protected[spark](
                                             charset: String,
