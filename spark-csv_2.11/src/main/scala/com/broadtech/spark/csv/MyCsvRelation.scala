@@ -40,7 +40,7 @@ case class MyCsvRelation protected[spark](
     * */
   def loadrun(): Unit ={
     val conf= sqlContext.sparkContext.hadoopConfiguration
-    val hdfs = org.apache.hadoop.fs.FileSystem.get(new java.net.URI(path),conf)
+    val hdfs = org.apache.hadoop.fs.FileSystem.get(conf)
     val files=hdfs.listStatus(new Path(path)).map(_.getPath.toString)
     files.map(file=>
         CsvRelation(
