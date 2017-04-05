@@ -33,7 +33,7 @@ case class MyCsvRelation protected[spark](
 )(@transient val sqlContext: SQLContext)
   extends BaseRelation with TableScan with PrunedScan with InsertableRelation {
 
-  private var myrdd:RDD[Row]=null
+  private var myrdd:RDD[Row]=sqlContext.sparkContext.emptyRDD[Row]
 
   /**
     * 遍历文件
@@ -77,9 +77,6 @@ case class MyCsvRelation protected[spark](
 
 
   def addRdd(rdd:RDD[Row]): Unit ={
-    if(myrdd==null)
-      myrdd=rdd
-    else
       myrdd=myrdd.++(rdd)
   }
 
