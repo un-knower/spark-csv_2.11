@@ -66,10 +66,10 @@ case class MyCsvRelation protected[spark](
     val conf= sqlContext.sparkContext.hadoopConfiguration
     val hdfs = org.apache.hadoop.fs.FileSystem.get(conf)
     //val files=hdfs.listStatus(new Path(path)).map(_.getPath.toString)
+    try {
+      iteratorShowFiles(hdfs, new Path(path)) //遍历文件
 
-    iteratorShowFiles(hdfs,new Path(path))  //遍历文件
-
-    files.map(file=>
+      files.map(file =>
         CsvRelation(
           () => TextFile.withCharset(sqlContext.sparkContext, file, charset),
           Some(file),
@@ -89,12 +89,14 @@ case class MyCsvRelation protected[spark](
           nullValue,
           dateFormat,
           maxCharsPerCol)(sqlContext)
-    ).foreach(csvRelation=>{
-      //sqlContext.baseRelationToDataFrame(csvRelation).show()
-      //sqlContext.createDataFrame(csvRelation.buildScan,userSchema).show()
-      addRdd(csvRelation.buildScan)
-    })
-
+      ).foreach(csvRelation => {
+        //sqlContext.baseRelationToDataFrame(csvRelation).show()
+        //sqlContext.createDataFrame(csvRelation.buildScan,userSchema).show()
+        addRdd(csvRelation.buildScan)
+      })
+    }finally {
+      hdfs.close()
+    }
   }
 
 
