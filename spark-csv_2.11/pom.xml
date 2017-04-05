@@ -6,7 +6,7 @@
 
     <groupId>com.broadtech</groupId>
     <artifactId>spark-csv_2.11</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
 
     <repositories>
         <repository>
